@@ -1,0 +1,96 @@
+[+] Loading gcc  7.3.0  ... 
+[+] Loading GSL 2.4 for GCC 7.2.0 ... 
+[-] Unloading gcc  7.3.0  ... 
+[+] Loading gcc  7.3.0  ... 
+[+] Loading openmpi 3.0.2  for GCC 7.3.0 
+[+] Loading ImageMagick  7.0.8  on cn2170 
+[+] Loading HDF5  1.10.4 
+[+] Loading R 3.5.2 
+
+R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+During startup - Warning message:
+Setting LC_CTYPE failed, using "C" 
+> setwd("/data/gaos2/tmp/mousehuman/analysis")
+> rm(list=ls())
+> library(Seurat)
+Loading required package: ggplot2
+Loading required package: cowplot
+
+Attaching package: 'cowplot'
+
+The following object is masked from 'package:ggplot2':
+
+    ggsave
+
+Loading required package: Matrix
+> load("humanmouse.aligned.2.RData")
+> 
+> png("tSNE_feature_plot.png", width=2000, height=2000, res=100)
+> FeaturePlot(object = speices.combined, features.plot = c("GATA1", "GATA2", "CREM", "CD8A", "DPH7", "CD79A", "MLLT3", "CD37", "IL2RB"), min.cutoff = "q9", 
++             cols.use = c("lightgrey", "blue"), pt.size = 0.5)
+Fontconfig warning: ignoring UTF-8: not a valid region tag
+> dev.off()
+null device 
+          1 
+> write.csv(speices.combined@dr$tsne@cell.embeddings, "tSNE.csv")
+> png("tSNE_checkData.png", width=2000, height=2000, res=100)
+> plot(speices.combined@dr$tsne@cell.embeddings[,1], speices.combined@dr$tsne@cell.embeddings[,2], pch=19)
+> dev.off()
+null device 
+          1 
+> speices.combined<-SetAllIdent(speices.combined, id = "res.0.6")
+> for(cluster in 0:16){
++   markers <- FindConservedMarkers(speices.combined, ident.1 = cluster, grouping.var = "speice",print.bar = FALSE)
++   write.csv(markers, file=paste("aligned_cluster_", cluster, ".csv"))
++ }
+Testing 0_human vs 1_human, 2_human, 3_human, 4_human, 5_human, 6_human, 7_human, 8_human, 9_human, 10_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 0_mouse vs 1_mouse, 2_mouse, 3_mouse, 4_mouse, 5_mouse, 6_mouse, 7_mouse, 8_mouse, 9_mouse, 10_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 1_human vs 0_human, 2_human, 3_human, 4_human, 5_human, 6_human, 7_human, 8_human, 9_human, 10_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 1_mouse vs 0_mouse, 2_mouse, 3_mouse, 4_mouse, 5_mouse, 6_mouse, 7_mouse, 8_mouse, 9_mouse, 10_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 2_human vs 0_human, 1_human, 3_human, 4_human, 5_human, 6_human, 7_human, 8_human, 9_human, 10_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 2_mouse vs 0_mouse, 1_mouse, 3_mouse, 4_mouse, 5_mouse, 6_mouse, 7_mouse, 8_mouse, 9_mouse, 10_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 3_human vs 0_human, 1_human, 2_human, 4_human, 5_human, 6_human, 7_human, 8_human, 9_human, 10_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 3_mouse vs 0_mouse, 1_mouse, 2_mouse, 4_mouse, 5_mouse, 6_mouse, 7_mouse, 8_mouse, 9_mouse, 10_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 4_human vs 0_human, 1_human, 2_human, 3_human, 5_human, 6_human, 7_human, 8_human, 9_human, 10_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 4_mouse vs 0_mouse, 1_mouse, 2_mouse, 3_mouse, 5_mouse, 6_mouse, 7_mouse, 8_mouse, 9_mouse, 10_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 5_human vs 0_human, 1_human, 2_human, 3_human, 4_human, 6_human, 7_human, 8_human, 9_human, 10_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 5_mouse vs 0_mouse, 1_mouse, 2_mouse, 3_mouse, 4_mouse, 6_mouse, 7_mouse, 8_mouse, 9_mouse, 10_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 6_human vs 0_human, 1_human, 2_human, 3_human, 4_human, 5_human, 7_human, 8_human, 9_human, 10_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 6_mouse vs 0_mouse, 1_mouse, 2_mouse, 3_mouse, 4_mouse, 5_mouse, 7_mouse, 8_mouse, 9_mouse, 10_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 7_human vs 0_human, 1_human, 2_human, 3_human, 4_human, 5_human, 6_human, 8_human, 9_human, 10_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 7_mouse vs 0_mouse, 1_mouse, 2_mouse, 3_mouse, 4_mouse, 5_mouse, 6_mouse, 8_mouse, 9_mouse, 10_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 8_human vs 0_human, 1_human, 2_human, 3_human, 4_human, 5_human, 6_human, 7_human, 9_human, 10_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 8_mouse vs 0_mouse, 1_mouse, 2_mouse, 3_mouse, 4_mouse, 5_mouse, 6_mouse, 7_mouse, 9_mouse, 10_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 9_human vs 0_human, 1_human, 2_human, 3_human, 4_human, 5_human, 6_human, 7_human, 8_human, 10_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 9_mouse vs 0_mouse, 1_mouse, 2_mouse, 3_mouse, 4_mouse, 5_mouse, 6_mouse, 7_mouse, 8_mouse, 10_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 10_human vs 0_human, 1_human, 2_human, 3_human, 4_human, 5_human, 6_human, 7_human, 8_human, 9_human, 11_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 10_mouse vs 0_mouse, 1_mouse, 2_mouse, 3_mouse, 4_mouse, 5_mouse, 6_mouse, 7_mouse, 8_mouse, 9_mouse, 11_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 11_human vs 0_human, 1_human, 2_human, 3_human, 4_human, 5_human, 6_human, 7_human, 8_human, 9_human, 10_human, 12_human, 13_human, 14_human, 15_human, 16_human
+Testing 11_mouse vs 0_mouse, 1_mouse, 2_mouse, 3_mouse, 4_mouse, 5_mouse, 6_mouse, 7_mouse, 8_mouse, 9_mouse, 10_mouse, 12_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 12_human vs 0_human, 1_human, 2_human, 3_human, 4_human, 5_human, 6_human, 7_human, 8_human, 9_human, 10_human, 11_human, 13_human, 14_human, 15_human, 16_human
+Testing 12_mouse vs 0_mouse, 1_mouse, 2_mouse, 3_mouse, 4_mouse, 5_mouse, 6_mouse, 7_mouse, 8_mouse, 9_mouse, 10_mouse, 11_mouse, 13_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 13_human vs 0_human, 1_human, 2_human, 3_human, 4_human, 5_human, 6_human, 7_human, 8_human, 9_human, 10_human, 11_human, 12_human, 14_human, 15_human, 16_human
+Testing 13_mouse vs 0_mouse, 1_mouse, 2_mouse, 3_mouse, 4_mouse, 5_mouse, 6_mouse, 7_mouse, 8_mouse, 9_mouse, 10_mouse, 11_mouse, 12_mouse, 14_mouse, 15_mouse, 16_mouse
+Testing 14_human vs 0_human, 1_human, 2_human, 3_human, 4_human, 5_human, 6_human, 7_human, 8_human, 9_human, 10_human, 11_human, 12_human, 13_human, 15_human, 16_human
+Error in FindMarkers(object = object, assay.type = assay.type, ident.1 = ident.use.1,  : 
+  Cell group 1 has fewer than 3 cells in identity class 14_human
+Calls: FindConservedMarkers -> FindMarkers
+In addition: There were 29 warnings (use warnings() to see them)
+Execution halted
